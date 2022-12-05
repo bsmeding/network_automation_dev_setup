@@ -11,4 +11,6 @@ My host setup for network automation tests, docker, Nautobot, Ansible, AWX etc
 
 * `cd network_automation_dev_setup`
 
+* install python dependencies: `pip3 install requirements.txt`
+
 * install Ansible roles: `ansible-galaxy install -r requirements.yml`
