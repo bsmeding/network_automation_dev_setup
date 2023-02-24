@@ -4,6 +4,7 @@
   gather_facts: true
   become: yes
   vars:
+    ansible_user: myuser # user to login with SSH, must have sudo rights
     awx__admin_user: admin
     awx__admin_password: password
     awx__secret_key: awxsecret

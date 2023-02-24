@@ -4,6 +4,7 @@
   gather_facts: true
   become: yes
   vars:
+    ansible_user: myuser # user to login with SSH, must have sudo rights
     lldap_base_url: 'ldap.lab.local' 
     awx__base_url: 'awx.lab.local'
     nautobot__base_url: 'cmdb.lab.local'
