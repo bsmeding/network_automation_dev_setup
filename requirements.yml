@@ -1,3 +1,0 @@
-roles:
-- name: bsmeding.docker
-- name: bsmeding.nautobot_docker

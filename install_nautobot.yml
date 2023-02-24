@@ -5,7 +5,7 @@
   become: yes
   vars:
     nautobot__remove_existing_container: false
-    nautobot__image: nautobot:1.4.7
+    nautobot__image: nautobot:1.5.2
     nautobot__port_http: 8080
     nautobot__port_https: 8444
     nautobot__superuser_name: admin

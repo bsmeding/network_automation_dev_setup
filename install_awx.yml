@@ -1,0 +1,23 @@
+---
+- name: Install Ansible AWX
+  hosts: [awx]
+  gather_facts: true
+  become: yes
+  vars:
+    awx__admin_user: admin
+    awx__admin_password: password
+    awx__secret_key: awxsecret
+    awx__broadcast_websocket_secret: wotWFnUPkwV8e62jacVHterf5UfAF2bI
+    awx__port_web_http: 9080
+    awx__port_web_https: 9443
+    awx__base_url: 'http://localhost'
+    awx__dns_servers: "8.8.8.8,8.8.4.4"
+    awx__validate_certs: false
+  tasks:
+    - name: Check if docker is installed
+      include_role:
+        name: bsmeding.docker
+
+    - name: Check if nautobot is installed
+      include_role:
+        name: bsmeding.awx_docker

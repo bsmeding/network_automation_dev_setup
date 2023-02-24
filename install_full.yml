@@ -1,0 +1,44 @@
+---
+- name: Install Ansible AWX
+  hosts: srv1
+  gather_facts: true
+  become: yes
+  vars:
+    lldap_base_url: 'ldap.lab.local' 
+    awx__base_url: 'awx.lab.local'
+    nautobot__base_url: 'cmdb.lab.local'
+    gitea__base_url: 'git.lab.local'
+  tasks:
+    # Include vars from full install role
+    - name: Include vars from role
+      ansible.builtin.include_vars:
+        file: ./roles/full_install_config/defaults/main.yml
+
+    - name: Check if docker is installed
+      include_role:
+        name: bsmeding.docker
+
+    - name: Check if nginx is installed
+      include_role:
+        name: bsmeding.nginx_docker      
+
+    - name: Check if LLDAP is installed
+      include_role:
+        name: bsmeding.lldap_docker
+
+    - name: Check if nautobot is installed
+      include_role:
+        name: bsmeding.nautobot_docker
+
+    - name: Check if gitea is installed
+      include_role:
+        name: bsmeding.gitea_docker
+
+    - name: Check if awx is installed
+      include_role:
+        name: bsmeding.awx_docker
+
+
+
+
+          

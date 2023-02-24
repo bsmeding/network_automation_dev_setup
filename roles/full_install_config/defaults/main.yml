@@ -1,0 +1,97 @@
+# This role conbines all variabels from different roles so that the can communicate with each other
+
+# Nginx
+nginx__port_http: 80
+nginx__port_https: 443
+nginx__network: 'proxy'
+nginx__proxy_confs_subdomain:
+  - server_name: "{{ lldap_base_url }}"
+    listen: 80
+    default_upstream_proto: http
+    default_upstream_url: "{{ ldap__name }}" # name of ldap container
+    default_upstream_port: 17170 # Internal web port from lldap container
+  - server_name: "{{ nautobot__base_url }}"
+    listen: 80
+    default_upstream_proto: http
+    default_upstream_url: "nautobot" # name of nautobot container
+    default_upstream_port: 8080 # Internal web port from container
+  - server_name: "{{ gitea__base_url }}"
+    listen: 80
+    default_upstream_proto: http
+    default_upstream_url: "gitea" # name of gitea container
+    default_upstream_port: 3000 # Internal web port from container
+
+# LLDAP
+ldap__name: ldap
+ldap__port_default: 3890
+ldap__port_web: 8080
+ldap__admin_password: devnetops
+ldap__base_dn: "dc=example,dc=com"
+ldap__network: 'ldap'
+ldap__container_networks:
+  - name: bridge
+  - name: "{{ ldap__network }}"
+  - name: "{{ nginx__network }}" # Connect to own proxy network
+
+# Nautobot
+nautobot__port_http: 8081
+nautobot__port_https: 8444
+nautobot__superuser_name: admin
+nautobot__superuser_password: devnetops
+nautobot__superuser_api_token: "1234567890abcdefghijklmnopqrstuvwxyz" # Max 40 char
+nautobot__napalm_username: cisco
+nautobot__napalm_password: cisco
+nautobot__network_name: nautobot
+nautobot__networks:
+  - name: bridge
+  - name: "{{ nautobot__network_name }}"
+  - name: "{{ nginx__network }}"
+  - name: "{{ ldap__network }}"
+nautobot__banner_login: 'nautobot DevNet setup use {{ nautobot__superuser_name }}, {{ nautobot__superuser_password }} to login'
+nautobot__banner_bottom: 'Use for demo and dev only'
+nautobot__ldap_auth_server_ip: '{{ ldap__name }}' # hostname of ldap container
+nautobot__ldap_auth_server_port: 3890 # 3890 is internal LDAP port, the variable ldap__port_default is external listening port
+nautobot__ldap_auth_bind_dn: "CN=admin,OU=people,{{ ldap__base_dn }}"
+nautobot__ldap_auth_bind_pass: "{{ ldap__admin_password }}"
+nautobot__ldap_search_users: "ou=people,{{ ldap__base_dn }}"
+nautobot__ldap_search_uid: uid=%(user)s # sAMAccountName=%(user)s    # uid=%(user)s    # &(objectClass=user)(sAMAccountName=%(user)s)
+nautobot__ldap_search_users_dn_template: ''
+nautobot__ldap_search_users_attribute_map: {
+    "first_name": "givenName",
+    "last_name": "sn",
+    "email": "mail"
+  }
+nautobot__ldap_group_search: "ou=groups,{{ ldap__base_dn }}"
+nautobot__ldap_group_search_objectClass: groupOfNames
+nautobot__ldap_group_search_group_type: GroupOfNamesType()
+nautobot__ldap_require_group: ''
+nautobot__ldap_is_active_group: ''
+nautobot__ldap_staff_group: ''
+nautobot__ldap_superuser_group: ''
+nautobot__ldap_mirror_groups: false # Mirror ALL LDAP groups
+nautobot__ldap_find_group_perms: true
+nautobot__ldap_cache_groups: true
+
+
+# Gitea
+gitea__image: gitea/gitea:1.17.1-rootless
+gitea__url: "{{ gitea__base_url | default(ansible_host) }}" # see playbook
+gitea__db_name: giteadb
+gitea__db_image: postgres:14 # "bitnami/postgresql:latest"
+gitea__port_web: 8082
+gitea__port_ssh: 2222
+gitea__root_url: "http://{{ gitea__url }}:{{ gitea__port_web }}"
+gitea__container_networks:
+  - name: bridge
+  - name: "{{ gitea__network }}"
+  - name: "{{ nginx__network }}"
+  - name: "{{ ldap__network }}"
+
+
+# AWX
+awx__admin_user: admin
+awx__admin_password: devnetops
+awx__port_web_http: 8083
+awx__port_web_https: 8445
+awx__validate_certs: false
+awx__base_url: 'http://localhost:{{ awx__port_web_http }}'

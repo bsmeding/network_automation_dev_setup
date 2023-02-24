@@ -1,2 +1,8 @@
 [nautobot]
-localhost ansible_connection=local
+srv1 ansible_connection=ssh ansible_host=172.16.111.164 ansible_user=bsmeding
+
+[awx]
+srv1
+
+[git]
+srv1

@@ -1,0 +1,11 @@
+---
+# Python: psycopg2, jmespath, netaddr
+
+collections:
+  - name: devsec.hardening
+  - name: awx.awx
+  - name: ansible.posix
+  - name: ansible.utils
+#    version: "2.6.1"
+  - name: networktocode.nautobot
+  - name: community.docker
