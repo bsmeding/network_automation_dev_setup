@@ -1,6 +1,6 @@
 ---
 - name: Install Ansible AWX
-  hosts: srv1
+  hosts: localhost
   gather_facts: true
   become: yes
   vars:
