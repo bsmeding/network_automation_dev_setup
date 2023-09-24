@@ -1,3 +1,5 @@
+localhost ansible_connection=local
+
 [nautobot]
 srv1 ansible_connection=ssh ansible_host=172.16.111.164 ansible_user=bsmeding
 
