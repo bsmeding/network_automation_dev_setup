@@ -23,17 +23,17 @@
       include_role:
         name: bsmeding.nginx_docker      
 
-    - name: Check if LLDAP is installed
-      include_role:
-        name: bsmeding.lldap_docker
+    # - name: Check if LLDAP is installed
+    #   include_role:
+    #     name: bsmeding.lldap_docker
 
     - name: Check if nautobot is installed
       include_role:
         name: bsmeding.nautobot_docker
 
-    - name: Check if gitea is installed
-      include_role:
-        name: bsmeding.gitea_docker
+    # - name: Check if gitea is installed
+    #   include_role:
+    #     name: bsmeding.gitea_docker
 
     - name: Check if awx is installed
       include_role:

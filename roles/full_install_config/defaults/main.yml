@@ -5,21 +5,21 @@ nginx__port_http: 80
 nginx__port_https: 443
 nginx__network: 'proxy'
 nginx__proxy_confs_subdomain:
-  - server_name: "{{ lldap_base_url }}"
-    listen: 80
-    default_upstream_proto: http
-    default_upstream_url: "{{ ldap__name }}" # name of ldap container
-    default_upstream_port: 17170 # Internal web port from lldap container
+  # - server_name: "{{ lldap_base_url }}"
+  #   listen: 80
+  #   default_upstream_proto: http
+  #   default_upstream_url: "{{ ldap__name }}" # name of ldap container
+  #   default_upstream_port: 17170 # Internal web port from lldap container
   - server_name: "{{ nautobot__base_url }}"
     listen: 80
     default_upstream_proto: http
     default_upstream_url: "nautobot" # name of nautobot container
     default_upstream_port: 8080 # Internal web port from container
-  - server_name: "{{ gitea__base_url }}"
-    listen: 80
-    default_upstream_proto: http
-    default_upstream_url: "gitea" # name of gitea container
-    default_upstream_port: 3000 # Internal web port from container
+  # - server_name: "{{ gitea__base_url }}"
+  #   listen: 80
+  #   default_upstream_proto: http
+  #   default_upstream_url: "gitea" # name of gitea container
+  #   default_upstream_port: 3000 # Internal web port from container
 
 # LLDAP
 ldap__name: ldap
@@ -46,7 +46,7 @@ nautobot__networks:
   - name: bridge
   - name: "{{ nautobot__network_name }}"
   - name: "{{ nginx__network }}"
-  - name: "{{ ldap__network }}"
+  # - name: "{{ ldap__network }}"
 nautobot__banner_login: 'nautobot DevNet setup use {{ nautobot__superuser_name }}, {{ nautobot__superuser_password }} to login'
 nautobot__banner_bottom: 'Use for demo and dev only'
 nautobot__ldap_auth_server_ip: '{{ ldap__name }}' # hostname of ldap container
