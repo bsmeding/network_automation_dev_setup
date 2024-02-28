@@ -35,9 +35,9 @@
     #   include_role:
     #     name: bsmeding.gitea_docker
 
-    - name: Check if awx is installed
-      include_role:
-        name: bsmeding.awx_docker
+    # - name: Check if awx is installed
+    #   include_role:
+    #     name: bsmeding.awx_docker
 
 
 
