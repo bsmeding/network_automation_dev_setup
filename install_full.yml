@@ -16,11 +16,11 @@
         file: ./roles/full_install_config/defaults/main.yml
 
     - name: Check if docker is installed
-      include_role:
+      ansible.builtin.include_role:
         name: bsmeding.docker
 
     - name: Check if nginx is installed
-      include_role:
+      ansible.builtin.include_role:
         name: bsmeding.nginx_docker      
 
     # - name: Check if LLDAP is installed
@@ -35,11 +35,27 @@
     #   include_role:
     #     name: bsmeding.gitea_docker
 
-    # - name: Check if awx is installed
-    #   include_role:
-    #     name: bsmeding.awx_docker
+    - name: Check if awx is installed
+      ansible.builtin.include_role:
+        name: bsmeding.awx_docker
 
+    - name: Run ContainerLab install script
+      ansible.builtin.shell: bash -c "$(curl -sL https://get.containerlab.dev)"
+      become: true
+      changed_when: false
 
+    - name: Create containerlab directory
+      ansible.builtin.file:
+        path: /home/{{ ansible_user }}/containerlab
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
 
-
-          
+    - name: Copy local lab directory to destination
+      ansible.builtin.copy:
+        src: ./files/containerlabs/*
+        dest: /home/{{ ansible_user }}/containerlab/
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0644'
