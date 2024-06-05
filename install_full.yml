@@ -52,10 +52,17 @@
         group: "{{ ansible_user }}"
         mode: '0755'
 
+    - name: list files
+      find:
+        paths: "{{ role_path }}/files/containerlabs/"
+        file_type: any
+      register: files
+
     - name: Copy local lab directory to destination
       ansible.builtin.copy:
-        src: containerlabs/*
+        src: "{{ item.path }}"
         dest: /home/{{ ansible_user }}/containerlab/
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
         mode: '0644'
+      loop: "{{ files.files }}"
