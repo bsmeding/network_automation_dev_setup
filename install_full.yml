@@ -54,7 +54,7 @@
 
     - name: list files
       find:
-        paths: "{{ role_path }}/files/containerlabs/"
+        paths: "containerlabs/"
         file_type: any
       register: files
 
