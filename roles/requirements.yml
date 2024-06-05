@@ -4,11 +4,8 @@ roles:
 - name: bsmeding.nginx_docker
 - name: bsmeding.awx_docker
 - name: bsmeding.gitlab_docker
-- name: geerlingguy.pip
-  version: "2.2.0"
-- name: geerlingguy.docker
-  version: "6.0.0"
+# - name: geerlingguy.pip
+#   version: "2.2.0"
 - name: geerlingguy.repo-epel
     # version: "2.2.0"
 - name: robertdebock.fail2ban
-

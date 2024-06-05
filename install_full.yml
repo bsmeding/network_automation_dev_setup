@@ -54,7 +54,7 @@
 
     - name: Copy local lab directory to destination
       ansible.builtin.copy:
-        src: ./files/containerlabs/*
+        src: containerlabs/*
         dest: /home/{{ ansible_user }}/containerlab/
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
